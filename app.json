@@ -4,10 +4,10 @@
     "slug": "TaskManagerApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/logo.png",
+      "image": "./assets/logo.png", 
       "resizeMode": "contain",
       "backgroundColor": "#fcffe0"
     },
@@ -16,7 +16,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
@@ -24,7 +24,7 @@
     "web": {
       "favicon": "./assets/favicon_io/favicon-32x32.png",
       "splash": {
-        "image": "./assets/favicon_io/apple-touch-icon.png",
+        "image": "./assets/logo.png",
         "resizeMode": "contain",
         "backgroundColor": "#fcffe0"
       }

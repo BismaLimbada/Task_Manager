@@ -25,15 +25,29 @@ function HomeStack() {
   return (
     <Stack.Navigator 
       screenOptions={{ 
-        headerStyle: { backgroundColor: '#ffdae6' }, 
-        headerTintColor: '#a366cc',
-        headerTitleAlign: 'center'
+        headerStyle: { 
+          backgroundColor: '#ffdae6', // Your pastel pink background
+          elevation: 0,               // Removes shadow on Android
+          shadowOpacity: 0,           // Removes shadow on iOS
+          borderBottomWidth: 0,       // Clean seamless look
+        }, 
+        headerTintColor: '#a366cc',   // Your custom brand purple
+        headerTitleAlign: 'center',
       }}
     >
       <Stack.Screen 
         name="SyncTaskHome" 
         component={HomeScreen} 
-        options={{ headerTitle: () => <HeaderLogo /> }} 
+        options={{ 
+          title: 'Sync Task',
+          headerTitleStyle: {
+            fontSize: 24,
+            fontWeight: '700',        // Makes it pop beautifully
+            letterSpacing: 0.5,
+            fontFamily: 'System',     // Keeps it clean and native across iOS/Android
+            color: '#a366cc',
+          }
+        }} 
       />
       <Stack.Screen 
         name="AddTask" 
