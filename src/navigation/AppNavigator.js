@@ -1,23 +1,44 @@
 import React from 'react';
+import { Image, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-// Import our screens
 import HomeScreen from '../screens/HomeScreen';
-import TaskDetailScreen from '../screens/TaskDetailScreen';
+import AddTaskScreen from '../screens/AddTaskScreen';
+import CompletedScreen from '../screens/CompletedScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import TaskDetailScreen from '../screens/TaskDetailScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// 1. This Stack nested navigation handles going deeper into a task item
-function TaskStack() {
+// Custom component to display your brand icon inside navigation headers safely
+const HeaderLogo = () => (
+  <Image 
+    source={require('../../assets/icon.png')} 
+    style={styles.headerLogoImage}
+    resizeMode="contain"
+  />
+);
+
+function HomeStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator 
+      screenOptions={{ 
+        headerStyle: { backgroundColor: '#ffdae6' }, 
+        headerTintColor: '#a366cc',
+        headerTitleAlign: 'center'
+      }}
+    >
       <Stack.Screen 
-        name="HomeDashboard" 
+        name="SyncTaskHome" 
         component={HomeScreen} 
-        options={{ title: 'My Tasks' }} 
+        options={{ headerTitle: () => <HeaderLogo /> }} 
+      />
+      <Stack.Screen 
+        name="AddTask" 
+        component={AddTaskScreen} 
+        options={{ title: 'Create New Task' }} 
       />
       <Stack.Screen 
         name="TaskDetail" 
@@ -28,20 +49,25 @@ function TaskStack() {
   );
 }
 
-// 2. Main Tab Navigator setup that houses the Task Flow and Profile View
 export default function AppNavigator() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen 
-        name="Tasks" 
-        component={TaskStack} 
-        options={{ tabBarLabel: 'Tasks Dashboard' }}
-      />
-      <Tab.Screen 
-        name="Profile" 
-        component={ProfileScreen} 
-        options={{ headerShown: true, title: 'My Profile' }}
-      />
+    <Tab.Navigator 
+      screenOptions={{ 
+        tabBarActiveTintColor: '#a366cc',
+        tabBarInactiveTintColor: '#b38ecc',
+        tabBarStyle: { backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#ffdae6' }
+      }}
+    >
+      <Tab.Screen name="Home" component={HomeStack} options={{ headerShown: false, tabBarLabel: 'Tasks' }} />
+      <Tab.Screen name="Completed Tasks" component={CompletedScreen} options={{ headerStyle: { backgroundColor: '#ffdae6' }, headerTintColor: '#a366cc' }} />
+      <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerStyle: { backgroundColor: '#ffdae6' }, headerTintColor: '#a366cc', title: 'About Developers' }} />
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  headerLogoImage: {
+    width: 100,
+    height: 40,
+  },
+});
