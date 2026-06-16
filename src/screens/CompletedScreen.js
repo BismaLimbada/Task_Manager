@@ -28,7 +28,7 @@ export default function CompletedScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fcffe0', padding: 20 },
+  container: { flex: 1, backgroundColor: '#f8fdc7', padding: 20 },
   sectionHeading: { fontSize: 16, fontWeight: 'bold', color: '#a366cc', marginBottom: 12 },
   taskCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffdae6', padding: 15, borderRadius: 12, marginBottom: 10, opacity: 0.8 },
   checkboxChecked: { width: 20, height: 20, borderRadius: 10, backgroundColor: '#a366cc', justifyContent: 'center', alignItems: 'center', marginRight: 12 },

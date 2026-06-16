@@ -65,7 +65,7 @@ export default function TaskDetailScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fcffe0', // Muted Pastel Yellow base
+    backgroundColor: '#f8fdc7', // Muted Pastel Yellow base
     padding: 20,
     justifyContent: 'center',
   },

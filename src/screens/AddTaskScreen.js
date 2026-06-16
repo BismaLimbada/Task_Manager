@@ -47,7 +47,7 @@ export default function AddTaskScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fcffe0', padding: 20 },
+  container: { flex: 1, backgroundColor: '#f8fdc7', padding: 20 },
   card: { backgroundColor: '#fff', borderRadius: 20, padding: 20, borderWidth: 1.5, borderColor: '#ffdae6' },
   label: { fontSize: 13, fontWeight: '700', color: '#a366cc', marginBottom: 6 },
   input: { backgroundColor: '#fcffe0', height: 45, borderRadius: 10, paddingHorizontal: 12, marginBottom: 15, fontSize: 14, color: '#333' },

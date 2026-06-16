@@ -1,29 +1,116 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 export default function ProfileScreen() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.profileCard}>
-        <Text style={styles.nameText}>Bisma</Text>
-        <Text style={styles.infoText}>Seat Number: B23110006022</Text>
-        <Text style={styles.infoText}>Degree: BS Computer Science</Text>
-        <View style={styles.divider} />
-        <Text style={styles.projectHeading}>Sync Task Application</Text>
-        <Text style={styles.description}>
-          A modern, beautiful pastel task manager built using React Native, Expo, and Redux Toolkit.
-        </Text>
-      </View>
+  const teamMembers = [
+    {
+      id: 1,
+      name: 'Bisma',
+      seatNo: 'B23110006022',
+    },
+    {
+      id: 2,
+      name: 'M. Bilal Shahid',
+      seatNo: 'B23110006091',
+    },
+    {
+      id: 3,
+      name: 'M. Muzammil Hussain',
+      seatNo: 'B23110006108',
+    },
+    {
+      id: 4,
+      name: 'Omaima Fatima',
+      seatNo: 'B23110006132',
+    },
+    {
+      id: 5,
+      name: 'Saad Ahmed',
+      seatNo: 'B23110006142',
+    },
+  ];
+
+  return (<ScrollView
+    style={styles.container}
+    contentContainerStyle={styles.scrollContent}
+    showsVerticalScrollIndicator={true}
+  >
+    {teamMembers.map((member) => (<View key={member.id} style={styles.profileCard}> 
+      <Text style={styles.nameText}>
+      {member.name} 
+      </Text>
+      <Text style={styles.infoText}>
+        Seat Number: {member.seatNo}
+      </Text>
+
+      <View style={styles.divider} />
+
+      <Text style={styles.projectHeading}>
+        Sync Task Application
+      </Text>
     </View>
+    ))}
+  </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fcffe0', padding: 20, justifyContent: 'center' },
-  profileCard: { backgroundColor: '#fff', padding: 25, borderRadius: 20, borderWidth: 1.5, borderColor: '#ffdae6', alignItems: 'center', elevation: 2 },
-  nameText: { fontSize: 24, fontWeight: 'bold', color: '#a366cc', marginBottom: 5 },
-  infoText: { fontSize: 14, color: '#b38ecc', marginVertical: 2, fontWeight: '500' },
-  divider: { width: '80%', height: 1, backgroundColor: '#ffdae6', marginVertical: 15 },
-  projectHeading: { fontSize: 16, fontWeight: 'bold', color: '#a366cc', marginBottom: 8 },
-  description: { fontSize: 13, color: '#666', textAlign: 'center', lineHeight: 18 }
+  container: {
+    flex: 1,
+    backgroundColor: '#f8fdc7',
+  },
+
+  scrollContent: {
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+  },
+
+  profileCard: {
+    width: '100%',
+    maxWidth: 700,
+    backgroundColor: '#fff',
+    padding: 25,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: '#ffdae6',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+
+  nameText: {
+    fontSize: width > 768 ? 28 : 24,
+    fontWeight: 'bold',
+    color: '#a366cc',
+    textAlign: 'center',
+  },
+
+  infoText: {
+    fontSize: width > 768 ? 16 : 14,
+    color: '#b38ecc',
+    marginTop: 5,
+    textAlign: 'center',
+  },
+
+  divider: {
+    width: '80%',
+    height: 1,
+    backgroundColor: '#ffdae6',
+    marginVertical: 15,
+  },
+
+  projectHeading: {
+    fontSize: width > 768 ? 18 : 16,
+    fontWeight: 'bold',
+    color: '#a366cc',
+    textAlign: 'center',
+  },
 });

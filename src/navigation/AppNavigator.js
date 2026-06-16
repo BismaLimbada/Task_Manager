@@ -1,87 +1,164 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import MainScreen from '../screens/MainScreen';
 import HomeScreen from '../screens/HomeScreen';
 import AddTaskScreen from '../screens/AddTaskScreen';
 import CompletedScreen from '../screens/CompletedScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import TaskDetailScreen from '../screens/TaskDetailScreen';
 
+const RootStack = createStackNavigator();
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Custom component to display your brand icon inside navigation headers safely
-const HeaderLogo = () => (
-  <Image 
-    source={require('../../assets/icon.png')} 
-    style={styles.headerLogoImage}
-    resizeMode="contain"
-  />
-);
 
+// HOME STACK
 function HomeStack() {
   return (
-    <Stack.Navigator 
-      screenOptions={{ 
-        headerStyle: { 
-          backgroundColor: '#ffdae6', // Your pastel pink background
-          elevation: 0,               // Removes shadow on Android
-          shadowOpacity: 0,           // Removes shadow on iOS
-          borderBottomWidth: 0,       // Clean seamless look
-        }, 
-        headerTintColor: '#a366cc',   // Your custom brand purple
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#ffdae6',
+          height: 120,
+        },
+        headerTintColor: '#5e2783',
         headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontSize: 28,
+        },
       }}
     >
-      <Stack.Screen 
-        name="SyncTaskHome" 
-        component={HomeScreen} 
-        options={{ 
-          title: 'Sync Task',
-          headerTitleStyle: {
-            fontSize: 24,
-            fontWeight: '700',        // Makes it pop beautifully
-            letterSpacing: 0.5,
-            fontFamily: 'System',     // Keeps it clean and native across iOS/Android
-            color: '#a366cc',
-          }
-        }} 
+      <Stack.Screen
+        name="SyncTaskHome"
+        component={HomeScreen}
+        options={{
+          title: 'My Tasks',
+        }}
       />
-      <Stack.Screen 
-        name="AddTask" 
-        component={AddTaskScreen} 
-        options={{ title: 'Create New Task' }} 
+
+      <Stack.Screen
+        name="AddTask"
+        component={AddTaskScreen}
+        options={{
+          title: 'Add Task',
+        }}
       />
-      <Stack.Screen 
-        name="TaskDetail" 
-        component={TaskDetailScreen} 
-        options={{ title: 'Task Details' }} 
+
+      <Stack.Screen
+        name="TaskDetail"
+        component={TaskDetailScreen}
+        options={{
+          title: 'Task Details',
+        }}
       />
     </Stack.Navigator>
   );
 }
 
-export default function AppNavigator() {
+
+// BOTTOM TABS
+function TabNavigator() {
   return (
-    <Tab.Navigator 
-      screenOptions={{ 
+    <Tab.Navigator
+      screenOptions={{
         tabBarActiveTintColor: '#a366cc',
         tabBarInactiveTintColor: '#b38ecc',
-        tabBarStyle: { backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#ffdae6' }
+        tabBarStyle: {
+          backgroundColor: '#ffdae6',
+          borderTopWidth: 1,
+          borderTopColor: '#ffdae6',
+          height: 95,
+          paddingBottom: 14,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '600',
+        },
       }}
     >
-      <Tab.Screen name="Home" component={HomeStack} options={{ headerShown: false, tabBarLabel: 'Tasks' }} />
-      <Tab.Screen name="Completed Tasks" component={CompletedScreen} options={{ headerStyle: { backgroundColor: '#ffdae6' }, headerTintColor: '#a366cc' }} />
-      <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerStyle: { backgroundColor: '#ffdae6' }, headerTintColor: '#a366cc', title: 'About Developers' }} />
+      <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Tasks',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="notebook-outline"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Completed Tasks"
+        component={CompletedScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: '#ffdae6',
+            height: 120,
+          },
+          headerTintColor: '#5e2783',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 28,
+          },
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="check-decagram-outline"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          title: 'About Developers',
+          headerStyle: {
+            backgroundColor: '#ffdae6',
+            height: 120,
+          },
+          headerTintColor: '#5e2783',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 28,
+          },
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="account-supervisor-outline"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  headerLogoImage: {
-    width: 100,
-    height: 40,
-  },
-});
+
+// ROOT NAVIGATOR
+export default function AppNavigator() {
+  return (
+    <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      <RootStack.Screen
+        name="Main"
+        component={MainScreen}
+      />
+
+      <RootStack.Screen
+        name="HomeTabs"
+        component={TabNavigator}
+      />
+    </RootStack.Navigator>
+  );
+}

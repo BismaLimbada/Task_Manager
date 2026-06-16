@@ -25,11 +25,6 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.quoteCard}>
-        <Text style={styles.quoteText}>"The secret of getting ahead is getting started."</Text>
-        <Text style={styles.quoteAuthor}>— ZenQuotes API placeholder</Text>
-      </View>
-
       <TextInput 
         style={styles.searchBar}
         placeholder="Search active tasks..."
@@ -38,7 +33,7 @@ export default function HomeScreen({ navigation }) {
         onChangeText={setSearchQuery}
       />
 
-      <Text style={styles.sectionHeading}>Active Assignments ({filteredTasks.length})</Text>
+      <Text style={styles.sectionHeading}>Current Tasks ({filteredTasks.length})</Text>
       
       <FlatList
         data={filteredTasks}
@@ -73,26 +68,23 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fcffe0', padding: 20 },
-  quoteCard: { backgroundColor: '#fff', padding: 15, borderRadius: 15, borderLeftWidth: 4, borderLeftColor: '#a366cc', marginBottom: 20 },
-  quoteText: { fontStyle: 'italic', color: '#555', fontSize: 13 },
-  quoteAuthor: { fontSize: 11, color: '#a366cc', marginTop: 5, textAlign: 'right' },
+  container: { flex: 1, backgroundColor: '#f8fdc7', padding: 20 },
   searchBar: { backgroundColor: '#fff', height: 45, borderRadius: 12, paddingHorizontal: 15, borderWidth: 1, borderColor: '#ffdae6', marginBottom: 20 },
-  sectionHeading: { fontSize: 16, fontWeight: 'bold', color: '#a366cc', marginBottom: 12 },
+  sectionHeading: { fontSize: 16, fontWeight: 'bold', color: '#8038af', marginBottom: 12 },
   taskCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: 15, borderRadius: 12, marginBottom: 10, borderWidth: 1, borderColor: '#ffdae6' },
   checkbox: { width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: '#b38ecc', marginRight: 12 },
   textContainer: { flex: 1 },
   taskTitle: { fontSize: 15, color: '#333', fontWeight: '500' },
   badgeRow: { flexDirection: 'row', marginTop: 6 },
   priorityBadge: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6, marginRight: 6 },
-  categoryBadge: { backgroundColor: '#e8eaf6', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6 },
-  badgeText: { fontSize: 10, fontWeight: 'bold', color: '#555' },
+  categoryBadge: { backgroundColor: '#b38ecc', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6, color: '#ffffff'},
+  badgeText: { fontSize: 10, fontWeight: 'bold' },
   emptyText: { textAlign: 'center', color: '#b38ecc', marginTop: 20, fontStyle: 'italic' }, 
   floatingButton: {
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: '#a366cc',
+    backgroundColor: '#8038af',
     width: 55,
     height: 55,
     borderRadius: 27.5,
