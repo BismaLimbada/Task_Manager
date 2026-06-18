@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,8 +7,22 @@ import {
   Image,
   Platform,
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { loadDailyQuote } from '../redux/tasksSlice';
 
 export default function MainScreen({ navigation }) {
+  const { quote, author } = useSelector((state) => state.tasks);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!quote) {
+      dispatch(loadDailyQuote());
+    }
+  }, [dispatch, quote]);
+
+  const quoteText = quote || 'The secret of getting ahead is getting started.';
+  const quoteAuthor = author ? `— ${author}` : '— Loading quote...';
+
   return (
     <View style={Platform.OS === 'web' ? styles.webWrapper : styles.fullScreen}>
       <View style={styles.container}>
@@ -33,17 +47,15 @@ export default function MainScreen({ navigation }) {
         <Image
           source={require('../../assets/mainsc/1.png')}
           style={styles.image}
-          // THE FIX: 'contain' on web shows the WHOLE image without cropping.
-          // 'cover' on phone keeps your original look perfect.
           resizeMode={Platform.OS === 'web' ? 'contain' : 'cover'}
         />
 
         <View style={styles.quoteCard}>
           <Text style={styles.quoteText}>
-            "The secret of getting ahead is getting started."
+            "{quoteText}"
           </Text>
           <Text style={styles.quoteAuthor}>
-            — ZenQuotes API placeholder
+            {quoteAuthor}
           </Text>
         </View>
       </View>
@@ -52,12 +64,11 @@ export default function MainScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  // This style forces the web background to be yellow
   webWrapper: {
     flex: 1,
     backgroundColor: '#f8fdc7',
-    alignItems: 'center', // Centers the content horizontally on web
-    justifyContent: 'center', // Added to vertically center the content on web
+    alignItems: 'center', 
+    justifyContent: 'center', 
   },
   fullScreen: {
     flex: 1,
@@ -68,7 +79,7 @@ const styles = StyleSheet.create({
     paddingTop: 80,
     paddingHorizontal: 25,
     width: '100%',
-    maxWidth: 450, // This keeps the web view looking like a phone!
+    maxWidth: 450, 
     maxHeight: '100vh',
   },
   appName: {
@@ -100,7 +111,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    flex: 1, // Allows image to shrink dynamically
+    flex: 1, 
     alignSelf: 'center',
     marginTop: 0,
   },

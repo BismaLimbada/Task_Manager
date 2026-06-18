@@ -1,83 +1,81 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { fetchQuote } from '../service/api';
 
-const ASYNC_STORAGE_KEY = '@task_manager_tasks';
+const STORAGE_KEY = '@sync_task_manager_tasks';
 
-// Asynchronous Thunk to fetch tasks from AsyncStorage on application start
-export const loadTasksFromStorage = createAsyncThunk(
-  'tasks/loadTasksFromStorage',
-  async () => {
-    try {
-      const storedTasks = await AsyncStorage.getItem(ASYNC_STORAGE_KEY);
-      if (storedTasks !== null) {
-        return JSON.parse(storedTasks);
-      }
-      // Fallback to exact original mockup arrays if device storage is brand new
-      return [
-        { id: '1', title: 'Revise OS Lecture 3 Notes', description: 'Review processes and kernels', dueDate: 'June 18, 2026', priority: 'High', category: 'Study', completed: false },
-        { id: '2', title: 'Design Task Manager Logo Frame', description: 'Create pastel design vectors', dueDate: 'June 20, 2026', priority: 'Medium', category: 'Work', completed: false },
-        { id: '3', title: 'Buy pastel highlighters', description: 'Need soft color palettes', dueDate: 'June 22, 2026', priority: 'Low', category: 'Personal', completed: false },
-      ];
-    } catch (error) {
-      console.error("Failed to load tasks from local storage:", error);
-      return [];
-    }
-  }
-);
-
-// Helper function to handle background disk serialization writes
-const saveTasksToStorage = async (tasksArray) => {
+// Boot Thunk: Reads task structures directly from local storage during startup
+export const loadTasks = createAsyncThunk('tasks/load', async () => {
   try {
-    await AsyncStorage.setItem(ASYNC_STORAGE_KEY, JSON.stringify(tasksArray));
+    const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
+    return jsonValue != null ? JSON.parse(jsonValue) : [];
   } catch (error) {
-    console.error("Failed to save tasks to local storage:", error);
+    console.error('Error reading hardware storage disk:', error);
+    return [];
   }
-};
+});
+
+// Live Network Thunk: Pulls dynamic quotes from ZenQuotes
+export const loadDailyQuote = createAsyncThunk('tasks/fetchQuote', async () => {
+  return await fetchQuote();
+});
 
 const tasksSlice = createSlice({
   name: 'tasks',
-  initialState: {
-    items: [],
-    loading: false,
+  initialState: { 
+    items: [], 
+    quote: '', 
+    author: '',
+    loadingQuote: false 
   },
   reducers: {
     addTask: (state, action) => {
       state.items.push(action.payload);
-      saveTasksToStorage(state.items);
-    },
-    toggleTaskCompletion: (state, action) => {
-      const task = state.items.find(t => t.id === action.payload);
-      if (task) {
-        task.completed = !task.completed;
-        saveTasksToStorage(state.items);
-      }
-    },
-    deleteTask: (state, action) => {
-      state.items = state.items.filter(t => t.id !== action.payload);
-      saveTasksToStorage(state.items);
     },
     updateTask: (state, action) => {
-      const index = state.items.findIndex(t => t.id === action.payload.id);
-      if (index !== -1) {
-        state.items[index] = action.payload;
-        saveTasksToStorage(state.items);
-      }
+    const index = state.items.findIndex((item) => item.id === action.payload.id);
+    if (index !== -1) {
+      state.items[index] = { ...state.items[index], ...action.payload };
     }
+  },
+    deleteTask: (state, action) => {
+      state.items = state.items.filter((item) => item.id !== action.payload);
+    },
+    toggleTaskCompletion: (state, action) => {
+      const task = state.items.find((item) => item.id === action.payload);
+      if (task) {
+        task.completed = !task.completed;
+      }
+    },
+    updateTask: (state, action) => {
+      const index = state.items.findIndex((item) => item.id === action.payload.id);
+      if (index !== -1) {
+        state.items[index] = { ...state.items[index], ...action.payload };
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadTasksFromStorage.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(loadTasksFromStorage.fulfilled, (state, action) => {
+      // Handle local disk extraction
+      .addCase(loadTasks.fulfilled, (state, action) => {
         state.items = action.payload;
-        state.loading = false;
       })
-      .addCase(loadTasksFromStorage.rejected, (state) => {
-        state.loading = false;
+      // Handle cloud REST endpoints
+      .addCase(loadDailyQuote.pending, (state) => {
+        state.loadingQuote = true;
+      })
+      .addCase(loadDailyQuote.fulfilled, (state, action) => {
+        state.quote = action.payload.q;
+        state.author = action.payload.a;
+        state.loadingQuote = false;
+      })
+      .addCase(loadDailyQuote.rejected, (state) => {
+        state.quote = 'Stay focused and keep syncing.';
+        state.author = 'Sync Task';
+        state.loadingQuote = false;
       });
   },
 });
 
-export const { addTask, toggleTaskCompletion, deleteTask, updateTask } = tasksSlice.actions;
+export const { addTask, deleteTask, toggleTaskCompletion, updateTask } = tasksSlice.actions;
 export default tasksSlice.reducer;
