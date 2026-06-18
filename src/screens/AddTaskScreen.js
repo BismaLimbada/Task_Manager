@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { addTask } from '../redux/tasksSlice';
 
 export default function AddTaskScreen({ navigation }) {
   const [title, setTitle] = useState('');
@@ -7,6 +9,29 @@ export default function AddTaskScreen({ navigation }) {
   const [dueDate, setDueDate] = useState('');
   const [priority, setPriority] = useState('Medium');
   const [category, setCategory] = useState('Study');
+
+  const dispatch = useDispatch();
+
+  const handleSaveTask = () => {
+    if (!title.trim()) {
+      alert('Please enter a task title!');
+      return;
+    }
+
+    // Creating the standardized payload layout structure
+    const newTask = {
+      id: Date.now().toString(), 
+      title: title.trim(),
+      description: description.trim(),
+      dueDate: dueDate.trim() || 'No Due Date',
+      priority,
+      category,
+      completed: false,
+    };
+
+    dispatch(addTask(newTask));
+    navigation.goBack();
+  };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
@@ -38,7 +63,7 @@ export default function AddTaskScreen({ navigation }) {
           ))}
         </View>
 
-        <TouchableOpacity style={styles.saveButton} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={styles.saveButton} onPress={handleSaveTask}>
           <Text style={styles.saveButtonText}>Save Task Structure</Text>
         </TouchableOpacity>
       </View>
