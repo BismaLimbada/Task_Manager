@@ -15,7 +15,7 @@ Sync Task is a fully responsive, cross-platform mobile and web task management a
   * *Contribution:* Styled all layout elements, customized inputs, and implemented our color palette across all screen views.
 * **M. Bilal Shahid (Seat No: B23110006091)** — QA, Testing, & Production Deployment Lead  
   * *Contribution:* Handled file validation testing, cleared pathing conflicts, and is fully responsible for final production deployment.
-* **M. Muzammil Hussain (Seat No: B23110006108)** — Partner 1 (State Management Engineer)  
+* **Muzammil Hussain (Seat No: B23110006108)** — Partner 1 (State Management Engineer)  
   * *Contribution:* Planned global state architecture hooks ready for Phase 2 Redux Toolkit slices.
 * **Saad Ahmed (Seat No: B23110006142)** — Partner 2 (Data Persistence Specialist)  
   * *Contribution:* Planned the local storage data schemas for AsyncStorage persistence and live public API integration.
