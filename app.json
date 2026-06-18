@@ -7,7 +7,7 @@
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/logo.png", 
+      "image": "./assets/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#fcffe0"
     },
@@ -28,6 +28,9 @@
         "resizeMode": "contain",
         "backgroundColor": "#fcffe0"
       }
-    }
+    },
+    "plugins": [
+      "@react-native-community/datetimepicker"
+    ]
   }
 }
