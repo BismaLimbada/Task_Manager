@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleTaskCompletion } from '../redux/tasksSlice';
 
 export default function HomeScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [tasks, setTasks] = useState([
-    { id: '1', title: 'Revise OS Lecture 3 Notes', priority: 'High', category: 'Study', completed: false },
-    { id: '2', title: 'Design Task Manager Logo Frame', priority: 'Medium', category: 'Work', completed: false },
-    { id: '3', title: 'Buy pastel highlighters', priority: 'Low', category: 'Personal', completed: false },
-  ]);
+  
+  // Pulling live data dynamically from the Redux global store engine
+  const tasks = useSelector((state) => state.tasks.items);
+  const dispatch = useDispatch();
 
   const handleToggleComplete = (id) => {
-    setTasks(tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t));
+    // Forward the action to toggle state parameters globally
+    dispatch(toggleTaskCompletion(id));
   };
 
   const filteredTasks = tasks.filter(t => 
@@ -56,7 +58,7 @@ export default function HomeScreen({ navigation }) {
         )}
         ListEmptyComponent={<Text style={styles.emptyText}>No active tasks match your view.</Text>}
       />
-      {/* FLOATING ACTION BUTTON TO CREATE TASKS */}
+
       <TouchableOpacity 
         style={styles.floatingButton} 
         onPress={() => navigation.navigate('AddTask')}
@@ -77,8 +79,8 @@ const styles = StyleSheet.create({
   taskTitle: { fontSize: 15, color: '#333', fontWeight: '500' },
   badgeRow: { flexDirection: 'row', marginTop: 6 },
   priorityBadge: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6, marginRight: 6 },
-  categoryBadge: { backgroundColor: '#b38ecc', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6, color: '#ffffff'},
-  badgeText: { fontSize: 10, fontWeight: 'bold' },
+  categoryBadge: { backgroundColor: '#b38ecc', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6 },
+  badgeText: { fontSize: 10, fontWeight: 'bold', color: '#ffffff' },
   emptyText: { textAlign: 'center', color: '#b38ecc', marginTop: 20, fontStyle: 'italic' }, 
   floatingButton: {
     position: 'absolute',
