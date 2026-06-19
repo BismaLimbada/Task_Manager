@@ -89,7 +89,7 @@ export default function ProfileScreen() {
           <View style={styles.contributionContainer}>
             {member.contributions.map((contribution, index) => (
               <View key={index} style={styles.bulletRow}>
-                <Text style={styles.bulletPoint}>🍇</Text>
+                <Text style={styles.bulletPoint}>- </Text>
                 <Text style={styles.bulletText}>{contribution}</Text>
               </View>
             ))}

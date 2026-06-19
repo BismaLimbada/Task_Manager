@@ -45,7 +45,7 @@ export default function MainScreen({ navigation }) {
 
         {/* Task Management Image */}
         <Image
-          source={require('../../assets/mainsc/1.png')}
+          source={require('../../assets/mainsc.png')}
           style={styles.image}
           resizeMode={Platform.OS === 'web' ? 'contain' : 'cover'}
         />

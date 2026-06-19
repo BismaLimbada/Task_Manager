@@ -21,7 +21,7 @@ Our interface runs on an elegant pastel style matrix optimized for universal res
 ## 👥 Academic Development Roster & Contributions
 * **Bisma (Seat No: B23110006022)** — Lead System Architect  
   * *Contribution:* Generated the core framework application skeleton, structured the project directory matrix, and managed cross-platform configuration frameworks.
-* **Omaima Fatima (Seat No: B23110006132)** — Lead UI/UX Layout Designer  
+* **Omaima Fatima (Seat No: B23110006132)** — Lead UI/UX Layout Engineer  
   * *Contribution:* Styled all layout elements, customized inputs, and implemented our color palette across all screen views.
 * **M. Bilal Shahid (Seat No: B23110006091)** — QA, Testing, & Production Deployment Lead  
   * *Contribution:* Handled file validation testing, cleared pathing conflicts, verified device-to-web viewport scaling, and is fully responsible for final deployment.
@@ -33,16 +33,19 @@ Our interface runs on an elegant pastel style matrix optimized for universal res
 ---
 
 ## 📂 System Directory Roadmap
-* `src/navigation/AppNavigator.js` - Manages combined Bottom Tab & Stack layouts.
-* `src/redux/store.js` - Global Redux store context engine.
-* `src/redux/tasksSlice.js` - Houses core mutation action reducers and background storage persistence thunks.
-* `src/services/quoteService.js` - Custom network service handler performing asynchronous public REST API web queries.
-* `src/screens/` - Complete responsive UI layout screen components:
-  * `MainScreen.js` - App welcome gate housing the live public REST API quote tray.
-  * `HomeScreen.js` - Central dashboard tracking active task items with search filters.
-  * `AddTaskScreen.js` - Multi-metadata capture wizard using priority and category selector chips.
-  * `CompletedScreen.js` - Separate archive view isolating completed, checked items.
-  * `TaskDetailScreen.js` - Expanded analysis panel detailing individual task descriptions.
-  * `ProfileScreen.js` - Academic credential panel introducing the development team.
+* `assets/mainsc.png` - Primary graphic illustration asset rendered on the App Welcome screen.
+* `assets/logo.png` - Full application brand logo mark featuring the project tagline context.
+* `src/components/Dashboard.js` - Modular tracking component block rendering secondary user layout statistics.
+* `src/navigation/AppNavigator.js` - Central interface application routing engine managing combined Bottom Tab & Stack layouts.
+* `src/redux/store.js` - Global Redux store context engine linking runtime data layers cleanly.
+* `src/redux/tasksSlice.js` - Core state slice processing active task mutation action reducers and hardware database caching loops.
+* `src/service/api.js` - Asynchronous web infrastructure data connector tracking external public REST API endpoint calls.
+* `src/screens/` - Complete universal responsive frontend viewport layout modules:
+  * `MainScreen.js` - App welcome gate displaying prominent branding text, illustration panels, and external quotes.
+  * `HomeScreen.js` - Central workspace view tracking dynamic item keyword lookups, priority levels, and category groupings.
+  * `AddTaskScreen.js` - Structured task creation component implementing selector chip modules for priority and category data.
+  * `CompletedScreen.js` - Dedicated visual filter screen archiving cleared task nodes in a structured separate log view.
+  * `TaskDetailScreen.js` - Full detail analysis panel expanding descriptive text boxes, urgency details, and scheduling constraints.
+  * `ProfileScreen.js` - Formal credential registry displaying academic roles, team contributions, and project identification fields.
 
 ---
