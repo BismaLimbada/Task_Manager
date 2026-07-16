@@ -1,30 +1,29 @@
 import { configureStore } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import taskReducer from './tasksSlice';
 
-const STORAGE_KEY = '@sync_task_manager_tasks';
-
-// Custom Middleware to auto-save tasks collection to hardware disk upon any state change
-const persistentStorageMiddleware = (store) => (next) => (action) => {
-  const result = next(action);
-  
-  // Intercept any task slice mutations to record immediate changes
-  if (action.type.startsWith('tasks/')) {
-    const currentState = store.getState();
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(currentState.tasks.items)).catch((err) =>
-      console.error('Failed to auto-save tasks to disk:', err)
-    );
-  }
-  
-  return result;
+// Configure how redux-persist connects to AsyncStorage
+const persistConfig = {
+  key: 'sync_task_manager_tasks', // Your storage key
+  storage: AsyncStorage,
 };
+
+// Wrap your existing reducer in the persistence engine
+const persistedReducer = persistReducer(persistConfig, taskReducer);
 
 export const store = configureStore({
   reducer: {
-    tasks: taskReducer,
+    tasks: persistedReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false,
-    }).concat(persistentStorageMiddleware),
+      // Ignore redux-persist actions so they don't trigger serialization warnings
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
+
+// Export the persistor so we can wrap the app with it
+export const persistor = persistStore(store);

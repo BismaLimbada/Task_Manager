@@ -1,19 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchQuote } from '../service/api';
-
-const STORAGE_KEY = '@sync_task_manager_tasks';
-
-// Boot Thunk: Reads task structures directly from local storage during startup
-export const loadTasks = createAsyncThunk('tasks/load', async () => {
-  try {
-    const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
-    return jsonValue != null ? JSON.parse(jsonValue) : [];
-  } catch (error) {
-    console.error('Error reading hardware storage disk:', error);
-    return [];
-  }
-});
 
 // Live Network Thunk: Pulls dynamic quotes from ZenQuotes
 export const loadDailyQuote = createAsyncThunk('tasks/fetchQuote', async () => {
@@ -32,12 +18,6 @@ const tasksSlice = createSlice({
     addTask: (state, action) => {
       state.items.push(action.payload);
     },
-    updateTask: (state, action) => {
-    const index = state.items.findIndex((item) => item.id === action.payload.id);
-    if (index !== -1) {
-      state.items[index] = { ...state.items[index], ...action.payload };
-    }
-  },
     deleteTask: (state, action) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
     },
@@ -56,10 +36,6 @@ const tasksSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Handle local disk extraction
-      .addCase(loadTasks.fulfilled, (state, action) => {
-        state.items = action.payload;
-      })
       // Handle cloud REST endpoints
       .addCase(loadDailyQuote.pending, (state) => {
         state.loadingQuote = true;
